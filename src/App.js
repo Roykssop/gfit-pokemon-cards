@@ -10,13 +10,7 @@ const styles = theme => ({
 
 class App extends Component {
   render () {
-    const { classes } = this.props
-
-    return (
-      <div className={ classes.root }>
-        <Login />
-      </div>
-    );
+    return <Login />
   }
 }
 
