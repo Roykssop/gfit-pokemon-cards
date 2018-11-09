@@ -6,7 +6,7 @@ const styles = theme => ({
 		height: '100vh',
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	paper: {
 		padding: theme.spacing.unit * 3,
@@ -31,7 +31,7 @@ class Login extends Component {
 
 	render () {
 		const { classes } = this.props
-		console.log("Test")
+
 
 		return (
 		<div className={classes.container}>
@@ -57,6 +57,7 @@ class Login extends Component {
 							margin="normal"
 							/>
 						</Grid>
+						<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=REPLACEWITHCLIENTID"> oAuth </a>
 					</Grid>
 				</form>				
 			</Paper>
