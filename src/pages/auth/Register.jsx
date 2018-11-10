@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Paper, withStyles, TextField, Grid } from '@material-ui/core'
 import axios from 'axios'
+import moment from 'moment'
 
 const styles = theme => ({
 	container: {
@@ -31,10 +32,8 @@ class Register extends Component {
 
 
 	render () {
-		const { classes } = this.props
-        console.log('Test')
-		console.log(this.props)
-        const params = new URLSearchParams(this.props.location.hash)
+		const { classes, location } = this.props
+    const params = new URLSearchParams(location.hash)
 		const token = params.get('access_token')
 
 		axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
@@ -44,8 +43,8 @@ class Register extends Component {
 			  dataSourceId: 'derived:com.google.step_count.delta:com.google.android.gms:estimated_steps',
 			}],
 			bucketByTime: { durationMillis: 86400000 },
-			startTimeMillis: 1541386800000,
-			endTimeMillis: 1541646000000,
+			startTimeMillis: moment().startOf("day").valueOf(),
+			endTimeMillis: moment().valueOf(),
 		  },
 		  { headers: { Authorization: `Bearer ${ token }` } },
 		  )
@@ -54,7 +53,7 @@ class Register extends Component {
 		  })
 		  .catch(error => {
 			console.log(error)
-		  })
+			})
 
 		return (
 		<div className={classes.container}>

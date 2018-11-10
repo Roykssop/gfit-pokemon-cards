@@ -57,7 +57,7 @@ class Login extends Component {
 							margin="normal"
 							/>
 						</Grid>
-						<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=REPLACEWITHCLIENTID"> oAuth </a>
+						<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=864694559054-rns5ssoveb5oar0k78havsp7r2cr4hcc.apps.googleusercontent.com"> oAuth </a>
 					</Grid>
 				</form>				
 			</Paper>
