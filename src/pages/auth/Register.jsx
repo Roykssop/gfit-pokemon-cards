@@ -25,6 +25,10 @@ class Register extends Component {
 		password: '',
 	}
 
+	componentDidMount () {
+
+	}
+
 	handleChange = (type, event) => {
 		console.log(type)
 		this.setState({ [type]: event.target.value })
@@ -43,11 +47,10 @@ class Register extends Component {
 			  dataSourceId: 'derived:com.google.step_count.delta:com.google.android.gms:estimated_steps',
 			}],
 			bucketByTime: { durationMillis: 86400000 },
-			startTimeMillis: moment().startOf("day").valueOf(),
+			startTimeMillis: moment().startOf('day').valueOf(),
 			endTimeMillis: moment().valueOf(),
 		  },
-		  { headers: { Authorization: `Bearer ${ token }` } },
-		  )
+		  { headers: { Authorization: `Bearer ${ token }` } },)
 		  .then(response => {
 			console.log(response)
 		  })

@@ -1,15 +1,23 @@
 /* eslint-disable no-trailing-spaces */
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { MuiThemeProvider } from '@material-ui/core'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+
 import './index.css'
-import Root from './App'
 import * as serviceWorker from './serviceWorker'
 import theme from './ui/theme'
-import { MuiThemeProvider } from '@material-ui/core'
+import Root from './App'
+import rootReducer from './store/reducers'
+
+const store = createStore(rootReducer)
 
 const App = () => (
       <MuiThemeProvider theme={theme}>
-        <Root />
+        <Provider store={store}>
+          <Root />
+        </Provider>
       </MuiThemeProvider>        
     )
 
