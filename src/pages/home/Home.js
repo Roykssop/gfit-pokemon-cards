@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Paper, withStyles, TextField, Grid } from '@material-ui/core'
+import { Paper, withStyles } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
 import * as actionCreators from '../../store/actions/actions'
@@ -21,7 +21,7 @@ const styles = theme => ({
 
 })
 
-class Register extends Component {
+class Home extends Component {
 	state = {
 		steps: 0,
 	}
@@ -32,11 +32,6 @@ class Register extends Component {
 		const token = params.get('access_token')
 
 		cpLoadSteps(token)
-	}
-
-	handleChange = (type, event) => {
-		console.log(type)
-		this.setState({ [type]: event.target.value })
 	}
 
 
@@ -52,12 +47,12 @@ class Register extends Component {
 	}
 }
 
-Register.propTypes = {
+Home.propTypes = {
 	classes: PropTypes.Object,
 	steps: PropTypes.number,
 }
 
-Register.defaultProps = {
+Home.defaultProps = {
 	classes: {},
 	steps: 0,
 }
@@ -71,4 +66,4 @@ const mapDispatchToProps = dispatch => ({
 	})
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Register))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home))

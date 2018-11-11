@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Paper, withStyles, TextField, Grid } from '@material-ui/core'
+import btnGoogle from '../../assets/googlebtn.png'
+import logoFit from '../../assets/fitLogo.png'
 
 const styles = theme => ({
 	container: {
@@ -19,8 +21,8 @@ const styles = theme => ({
 
 class Login extends Component {
 	state = {
-		email: "",
-		password: "",
+		email: '',
+		password: '',
 	}
 
 	handleChange = (type, event) => {
@@ -36,14 +38,32 @@ class Login extends Component {
 		return (
 		<div className={classes.container}>
 			<Paper className={classes.paper}>
-				<form noValidate autoComplete="off">
+				<Grid container>
+					<Grid item xs={12} className={classes.centerText}>				
+						<img src={logoFit} alt="Gfit Pokemon cards" />						
+					</Grid>
+					<Grid item xs={12} className={classes.centerText}>
+					<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=864694559054-rns5ssoveb5oar0k78havsp7r2cr4hcc.apps.googleusercontent.com">
+						<img src={btnGoogle} alt="Google sign in" />
+					</a>
+					</Grid>
+				</Grid>
+			</Paper>
+		</div>)
+	}
+}
+
+export default withStyles(styles)(Login)
+
+/*
+			<form noValidate autoComplete="off">
 					<Grid container>
 						<Grid item xs={12} className={classes.centerText}>
 							<TextField
 							id="standard-email"
 							label="Email"
 							value={this.state.email}
-							onChange={ e =>  this.handleChange('email', e) } 
+							onChange={ e =>  this.handleChange('email', e) }
 							margin="normal"
 						/>
 						</Grid>
@@ -59,14 +79,4 @@ class Login extends Component {
 						</Grid>
 						<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=864694559054-rns5ssoveb5oar0k78havsp7r2cr4hcc.apps.googleusercontent.com"> oAuth </a>
 					</Grid>
-				</form>				
-			</Paper>
-		</div>)
-	}
-}
-
-export default withStyles(styles)(Login)
-
- /*
-
-				*/
+				</form>		*/

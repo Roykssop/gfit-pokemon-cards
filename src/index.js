@@ -2,16 +2,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { MuiThemeProvider } from '@material-ui/core'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 
 import './index.css'
 import * as serviceWorker from './serviceWorker'
 import theme from './ui/theme'
 import Root from './App'
-import rootReducer from './store/reducers'
+import rootReducer from './store/reducers/reducer'
+import { logger } from './store/middlewares/logger'
 
-const store = createStore(rootReducer)
+
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)))
+
+
 
 const App = () => (
       <MuiThemeProvider theme={theme}>

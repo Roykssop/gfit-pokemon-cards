@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles }  from '@material-ui/core'
 import Login from './pages/auth/Login'
-import Register from './pages/auth/Register.jsx'
+import Home from './pages/home/Home'
 import { BrowserRouter, Route, Switch }  from 'react-router-dom'
 
 const styles = theme => ({
@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/logged" exact component={Register} />
+          <Route path="/logged" exact component={Home} />
           <Route path="/" exact component={Login} />
         </Switch>
       </BrowserRouter>

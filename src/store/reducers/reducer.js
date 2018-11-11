@@ -4,7 +4,7 @@ const initialState = {
     steps: 0,
 }
 
-const rootReducer = (action, state = initialState) => {
+const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_STEPS :
             return {
