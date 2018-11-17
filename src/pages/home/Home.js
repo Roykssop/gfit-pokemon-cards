@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Paper, withStyles } from '@material-ui/core'
+import { Paper, withStyles, Button, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
 import * as actionCreators from '../../store/actions/actions'
+import jsonData from '../../monsters.json'
+
 import { connect } from 'react-redux'
 
 const styles = theme => ({
@@ -24,7 +26,10 @@ const styles = theme => ({
 class Home extends Component {
 	state = {
 		steps: 0,
+		showRevealButton: false,
+		showResultMsg: false,
 	}
+
 
 	componentDidMount () {
 		const { location, cpLoadSteps } = this.props
@@ -34,14 +39,39 @@ class Home extends Component {
 		cpLoadSteps(token)
 	}
 
+	handleClick = () => {
+		const aCards = [Math.round(Math.random() * 150), Math.round(Math.random() * 150), Math.round(Math.random() * 150)]
+
+		jsonData.map(item => {
+			const cardFound = aCards.indexOf(item.id)
+			console.log("Cardo found",cardFound)
+
+			if (cardFound) {
+				return (<img href={item.img} />)
+			}
+		})
+	}
+
+	renderRevealCards = () => <Button color="secondary" variant="raised" onClick={this.handleClick} >Reveal 3 monster cards</Button>
+
+	renderResultMessage = () => {
+		const { steps } = this.state
+		return <Typography variant="caption"> You need to walk { 2000 - steps } more to reveal cards! </Typography>
+	}
 
 	render () {
-		const { classes, steps } = this.props
+		const { classes } = this.props
+		const { steps } = this.state
 
 		return (
 		<div className={classes.container}>
 			<Paper className={classes.paper}>
-				{ `Today you walked ${ steps } steps` }		
+				<Typography variant="headline"> Today you walked { steps } steps</Typography>
+				{
+					(steps == 0)
+					? this.renderRevealCards()
+					: this.renderResultMessage()
+				}
 			</Paper>
 		</div>)
 	}
@@ -62,7 +92,9 @@ const mapStateToProps = state => ({
 	})
 
 const mapDispatchToProps = dispatch => ({
-		cpLoadSteps: token => { dispatch(actionCreators.loadSteps(token)) }
+		cpLoadSteps: token => {
+ dispatch(actionCreators.loadSteps(token))
+},
 	})
 
 
