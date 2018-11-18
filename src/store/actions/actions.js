@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import { LOAD_STEPS } from './actionTypes'
+import { REVEAL_CARDS } from './actionTypes'
 
 export const loadSteps = token => {
 	const grabSteps = apiFitResponse => {
@@ -31,7 +32,7 @@ export const loadSteps = token => {
     })
 	}
 
-    /*axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
+    /* axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
     {
       aggregateBy: [{
         dataTypeName: 'com.google.step_count.delta',
@@ -57,3 +58,8 @@ export const loadSteps = token => {
       console.log(error)
     })*/
 }
+
+export const revealCards = monsterCards => ({
+    type: REVEAL_CARDS,
+    payload: monsterCards,
+})

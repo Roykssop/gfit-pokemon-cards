@@ -1,7 +1,8 @@
-import { LOAD_STEPS } from '../actions/actionTypes'
+import { LOAD_STEPS, REVEAL_CARDS } from '../actions/actionTypes'
 
 const initialState = {
     steps: 0,
+    monsterCards: [],
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 steps: action.payload,
+            }
+        break
+        case REVEAL_CARDS:
+            return {
+                ...state,
+                monsterCards: action.payload,
             }
         break
         default:

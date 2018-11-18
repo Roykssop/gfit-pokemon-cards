@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Paper, withStyles, Button, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import * as actionCreators from '../../store/actions/actions'
 import jsonData from '../../monsters.json'
 
-import { connect } from 'react-redux'
+import BoxReveal from '../../monsters/BoxReveal'
+
 
 const styles = theme => ({
 	container: {
@@ -40,38 +42,40 @@ class Home extends Component {
 	}
 
 	handleClick = () => {
+		const { cpRevealCards } = this.props
 		const aCards = [Math.round(Math.random() * 150), Math.round(Math.random() * 150), Math.round(Math.random() * 150)]
 
-		jsonData.map(item => {
+		jsonData.forEach(item => {
 			const cardFound = aCards.indexOf(item.id)
-			console.log("Cardo found",cardFound)
-
-			if (cardFound) {
-				return (<img href={item.img} />)
+			if (cardFound >= 0) {
+				aCards[cardFound] = item
 			}
 		})
+
+		cpRevealCards(aCards)
 	}
 
 	renderRevealCards = () => <Button color="secondary" variant="raised" onClick={this.handleClick} >Reveal 3 monster cards</Button>
 
 	renderResultMessage = () => {
-		const { steps } = this.state
+		const { steps } = this.props
 		return <Typography variant="caption"> You need to walk { 2000 - steps } more to reveal cards! </Typography>
 	}
 
 	render () {
-		const { classes } = this.props
-		const { steps } = this.state
+		const { classes, steps, monsterCards } = this.props
 
 		return (
 		<div className={classes.container}>
 			<Paper className={classes.paper}>
 				<Typography variant="headline"> Today you walked { steps } steps</Typography>
 				{
-					(steps == 0)
+					(steps >=  2000)
 					? this.renderRevealCards()
 					: this.renderResultMessage()
 				}
+
+				<BoxReveal monsters={monsterCards} />
 			</Paper>
 		</div>)
 	}
@@ -80,21 +84,23 @@ class Home extends Component {
 Home.propTypes = {
 	classes: PropTypes.Object,
 	steps: PropTypes.number,
+	monsterCards: PropTypes.arrayOf(PropTypes.Object),
 }
 
 Home.defaultProps = {
 	classes: {},
 	steps: 0,
+	monsterCards: [],
 }
 
 const mapStateToProps = state => ({
 		steps: state.steps,
+		monsterCards: state.monsterCards,
 	})
 
 const mapDispatchToProps = dispatch => ({
-		cpLoadSteps: token => {
- dispatch(actionCreators.loadSteps(token))
-},
+		cpLoadSteps: token => { dispatch(actionCreators.loadSteps(token))},
+		cpRevealCards: monsterCards => { dispatch(actionCreators.revealCards(monsterCards))}, 
 	})
 
 
