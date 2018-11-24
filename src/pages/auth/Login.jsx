@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { Paper, withStyles, TextField, Grid } from '@material-ui/core'
+import { connect } from 'react-redux'
+
 import btnGoogle from '../../assets/googlebtn.png'
 import logoFit from '../../assets/fitLogo.png'
+import * as actionCreators from '../../store/actions/actions'
+import PropTypes from 'prop-types'
 
 const styles = theme => ({
 	container: {
@@ -25,16 +29,37 @@ class Login extends Component {
 		password: '',
 	}
 
+  componentDidMount () {
+		this.redirectLogged()
+	}
+
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.auth !== this.props.auth) { 
+			this.props.history.push('/home')
+		}
+	}
+
 	handleChange = (type, event) => {
 		console.log(type)
 		this.setState({ [type]: event.target.value })
 	}
 
+	handleClick = () => {
+		const { cpAuthFirebase } = this.props
+
+		cpAuthFirebase()
+	}
+
+	redirectLogged = () => {
+		const token = localStorage.getItem('accessToken')
+		if (token) {
+			this.props.history.push('/home')
+		}
+	}
 
 	render () {
 		const { classes } = this.props
-
-
+		
 		return (
 		<div className={classes.container}>
 			<Paper className={classes.paper}>
@@ -43,9 +68,9 @@ class Login extends Component {
 						<img src={logoFit} alt="Gfit Pokemon cards" />						
 					</Grid>
 					<Grid item xs={12} className={classes.centerText}>
-					<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=864694559054-rns5ssoveb5oar0k78havsp7r2cr4hcc.apps.googleusercontent.com">
-						<img src={btnGoogle} alt="Google sign in" />
-					</a>
+						<button onClick={this.handleClick}>
+							<img src={btnGoogle} alt="Google sign in" />
+						</button>	
 					</Grid>
 				</Grid>
 			</Paper>
@@ -53,30 +78,17 @@ class Login extends Component {
 	}
 }
 
-export default withStyles(styles)(Login)
+Login.propTypes = {
+	auth: PropTypes.bool,
+}
 
-/*
-			<form noValidate autoComplete="off">
-					<Grid container>
-						<Grid item xs={12} className={classes.centerText}>
-							<TextField
-							id="standard-email"
-							label="Email"
-							value={this.state.email}
-							onChange={ e =>  this.handleChange('email', e) }
-							margin="normal"
-						/>
-						</Grid>
-						<Grid item xs={12} className={classes.centerText}>
-							<TextField
-							id="standard-password"
-							label="Password"
-							className={classes.textField}
-							value={this.state.password}
-							onChange={ e => this.handleChange('password', e)  }
-							margin="normal"
-							/>
-						</Grid>
-						<a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffitness.activity.read&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogged&response_type=token&client_id=864694559054-rns5ssoveb5oar0k78havsp7r2cr4hcc.apps.googleusercontent.com"> oAuth </a>
-					</Grid>
-				</form>		*/
+const mapStateToProps = (state, props) =>({
+	auth: state.auth,
+})
+
+const mapDispatchToProps = dispatch => ({
+	cpAuthFirebase: () => dispatch(actionCreators.authFirebase()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login))
+

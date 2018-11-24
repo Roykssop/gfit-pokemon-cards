@@ -34,11 +34,8 @@ class Home extends Component {
 
 
 	componentDidMount () {
-		const { location, cpLoadSteps } = this.props
-    const params = new URLSearchParams(location.hash)
-		const token = params.get('access_token')
-
-		cpLoadSteps(token)
+		const { cpLoadSteps } = this.props
+		cpLoadSteps()
 	}
 
 	handleClick = () => {
@@ -99,8 +96,9 @@ const mapStateToProps = state => ({
 	})
 
 const mapDispatchToProps = dispatch => ({
-		cpLoadSteps: token => { dispatch(actionCreators.loadSteps(token))},
-		cpRevealCards: monsterCards => { dispatch(actionCreators.revealCards(monsterCards))}, 
+		cpLoadSteps: () => dispatch(actionCreators.loadSteps()),
+		cpRevealCards: monsterCards => dispatch(actionCreators.revealCards(monsterCards)),
+ 		cpAuthFbase: () => dispatch(actionCreators.authFirebase()),
 	})
 
 
