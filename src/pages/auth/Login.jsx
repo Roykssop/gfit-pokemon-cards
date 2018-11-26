@@ -30,12 +30,14 @@ class Login extends Component {
 	}
 
   componentDidMount () {
-		this.redirectLogged()
+		//this.redirectLogged()
 	}
 
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.auth !== this.props.auth) { 
-			this.props.history.push('/home')
+			if (nextProps.auth) {
+				this.props.history.push('/home')
+			}
 		}
 	}
 

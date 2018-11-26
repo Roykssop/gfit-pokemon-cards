@@ -20,16 +20,18 @@ const rootReducer = (state = initialState, action) => {
                 monsterCards: action.payload,
             }
         break
-        case AUTH_SUCCEED:
+				case AUTH_SUCCEED:
             return {
                 ...state,
                 auth: true,
-            }
-        case AUTH_FAILED:
+						}
+				break
+				case AUTH_FAILED:
             return {
 								...state,
 								auth: false,
 						}
+				break
         default:
             return state
         break

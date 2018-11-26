@@ -6,10 +6,17 @@ import { withRouter } from 'react-router-dom'
 class ProtectedRoutes extends Component {
 
   componentDidMount () {
-    const { history, redirectTo } = this.props
-    const token = localStorage.getItem('accessToken')
+    const { history, redirectTo, auth } = this.props
+    if (!auth) {
+      history.push(redirectTo)
+    }  
+  }
 
-    if (!token) {
+  componentDidUpdate (prevProps) {
+    const { history, redirectTo, auth } = this.props
+
+    if (prevProps.auth != auth)
+    if (!auth) {
       history.push(redirectTo)
     }
   }

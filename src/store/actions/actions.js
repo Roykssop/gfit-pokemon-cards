@@ -42,6 +42,7 @@ export const revealCards = monsterCards => ({
 })
 
 export const authFirebase = () => {
+
   const provider = new firebase.auth.GoogleAuthProvider()
   provider.addScope('https://www.googleapis.com/auth/fitness.activity.read')
 

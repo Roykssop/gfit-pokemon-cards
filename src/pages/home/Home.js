@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import * as actionCreators from '../../store/actions/actions'
+import firebase from '../../initializers/firebase'
 import jsonData from '../../monsters.json'
 
 import BoxReveal from '../../monsters/BoxReveal'
@@ -35,7 +36,15 @@ class Home extends Component {
 
 	componentDidMount () {
 		const { cpLoadSteps } = this.props
+		const token = localStorage.getItem('accessToken')
 		cpLoadSteps()
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				console.log("Usuario Log", user)
+			} else {
+				console.log("NOP")
+			}
+		});
 	}
 
 	handleClick = () => {
