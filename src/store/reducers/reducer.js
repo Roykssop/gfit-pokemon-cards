@@ -1,9 +1,10 @@
-import { LOAD_STEPS, REVEAL_CARDS, AUTH_SUCCEED, AUTH_FAILED } from '../actions/actionTypes'
+import { LOAD_STEPS, REVEAL_CARDS, AUTH_SUCCEED, AUTH_FAILED, LOAD_USER, SAVE_CARDS } from '../actions/actionTypes'
 
 const initialState = {
     auth: false,
     steps: 0,
-    monsterCards: [],
+		monsterCards: [],
+		cardsSaved: false,
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -32,6 +33,17 @@ const rootReducer = (state = initialState, action) => {
 								auth: false,
 						}
 				break
+				case LOAD_USER:
+						return {
+							...state,
+							user: action.payload,
+						}
+				break
+				case SAVE_CARDS:
+						return {
+							...state,
+							cardsSaved: true,
+						}
         default:
             return state
         break

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import firebase from '../../initializers/firebase'
-import { LOAD_STEPS, REVEAL_CARDS, AUTH_SUCCEED, AUTH_FAILED } from './actionTypes'
+import { LOAD_STEPS, REVEAL_CARDS, AUTH_SUCCEED, AUTH_FAILED, LOAD_USER, SAVE_CARDS } from './actionTypes'
 
 
 export const loadSteps = () => {
@@ -23,7 +23,7 @@ export const loadSteps = () => {
       startTimeMillis: moment().startOf('day').valueOf(),
       endTimeMillis: moment().valueOf(),
     },
-    { headers: { Authorization: `Bearer ${ token }` } },)
+    { headers: { Authorization: `Bearer ${ token }` } }, )
     .then(response => {
 				dispatch({
 					type: LOAD_STEPS,
@@ -42,14 +42,12 @@ export const revealCards = monsterCards => ({
 })
 
 export const authFirebase = () => {
-
   const provider = new firebase.auth.GoogleAuthProvider()
   provider.addScope('https://www.googleapis.com/auth/fitness.activity.read')
 
   return dispatch => firebase.auth().signInWithPopup(provider)
   .then(result => {
     const token = result.credential.accessToken
-    const { user } = result
     localStorage.setItem('accessToken', token)
     dispatch(authSucceed())
   }).catch(error => {
@@ -57,16 +55,32 @@ export const authFirebase = () => {
   })
 }
 
-export const authSucceed = () => {
-  return {
+export const authSucceed = () => ({
     type: AUTH_SUCCEED,
     payload: {},
-  }
-}
+  })
 
-export const authFailed = () => {
-  return {
+export const authFailed = () => ({
     type: AUTH_FAILED,
     payload: {},
-  }
+  })
+
+export const loadUser = ({ uid, displayName, email }) => ({
+    type: LOAD_USER,
+    payload: { uid, displayName, email },
+  })
+
+export const saveCards = card => {
+  const userDB = firebase.database().ref('cards/')
+
+  return dispatch => userDB.child(userDB.push().key).update(card)
+  .then(res => {
+    console.log(res)
+    dispatch({
+      type: SAVE_CARDS,
+    })
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }
