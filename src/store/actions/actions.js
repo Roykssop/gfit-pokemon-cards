@@ -1,8 +1,8 @@
 import axios from 'axios'
 import moment from 'moment'
 import firebase from '../../initializers/firebase'
-import { LOAD_STEPS, REVEAL_CARDS, AUTH_SUCCEED, AUTH_FAILED, LOAD_USER, SAVE_CARDS } from './actionTypes'
-
+import { LOAD_STEPS, REVEAL_CARDS, AUTH_SUCCEED, AUTH_FAILED, LOAD_USER, SAVE_CARDS, LOAD_COLLECTED_CARDS, CAN_PLAY  } from './actionTypes'
+import { object } from 'prop-types'
 
 export const loadSteps = () => {
 	const grabSteps = apiFitResponse => {
@@ -23,7 +23,7 @@ export const loadSteps = () => {
       startTimeMillis: moment().startOf('day').valueOf(),
       endTimeMillis: moment().valueOf(),
     },
-    { headers: { Authorization: `Bearer ${ token }` } }, )
+    { headers: { Authorization: `Bearer ${ token }` } },)
     .then(response => {
 				dispatch({
 					type: LOAD_STEPS,
@@ -75,12 +75,47 @@ export const saveCards = card => {
 
   return dispatch => userDB.child(userDB.push().key).update(card)
   .then(res => {
-    console.log(res)
     dispatch({
-      type: SAVE_CARDS,
+      type: CAN_PLAY,
+      payload: false,
     })
   })
   .catch(err => {
     console.log(err)
   })
+}
+
+export const loadCollectedCards = userId => {
+  const userDb = firebase.database().ref('cards/')
+  const query = userDb
+                  .orderByChild('userId')
+                  .equalTo(userId)
+
+  return dispatch => query.once('value')
+    .then(data => {
+      const userCollectedCards = data.val()
+
+      if (userCollectedCards) {
+        if (canPlayToday(userCollectedCards)) {
+          dispatch({
+            type: CAN_PLAY,
+            payload: true,
+          })
+        }
+      }
+
+      return dispatch({
+        type: LOAD_COLLECTED_CARDS,
+        payload: userCollectedCards,
+      })
+    })
+    .catch(err => console.log(err)) 
+}
+
+const canPlayToday = userCollectedCards => {
+  const canPlay = Object.values(userCollectedCards).some(cardCollected => {
+    return moment().isSame(cardCollected.dateCreated, 'day');
+  })
+ 
+  return !canPlay
 }
