@@ -33,14 +33,14 @@ function NavBar (props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             { props.section }
           </Typography>
-          <Button color="inherit">My cards</Button>
+          <Button color="inherit" onClick={ props.handleClick }>My cards</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-ButtonAppBar.propTypes = {
+NavBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 

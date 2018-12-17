@@ -6,9 +6,9 @@ import axios from 'axios'
 
 import Login from './pages/auth/Login'
 import Home from './pages/home/Home'
+import MyCards from './pages/mycards/Mycards'
 import ProtectedRoutes from './routes/ProtectedRoutes'
 import * as actionCreators from './store/actions/actions'
-
 
 const styles = theme => ({
   root: {
@@ -42,6 +42,7 @@ class App extends Component {
           <Route path="/" exact component={Login} />
           <ProtectedRoutes>
             <Route exact path="/home" exact component={Home} />
+            <Route exact path="/mycards" exact component={MyCards} />
           </ProtectedRoutes>
         </Switch>
       </BrowserRouter>

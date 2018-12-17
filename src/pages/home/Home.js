@@ -7,6 +7,7 @@ import * as actionCreators from '../../store/actions/actions'
 import firebase from '../../initializers/firebase'
 import jsonData from '../../monsters.json'
 
+import NavBar from '../../shared/navbar/Navbar'
 import BoxReveal from '../../cards/BoxReveal'
 
 
@@ -16,6 +17,7 @@ const styles = theme => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
+		flexDirection: 'column',
 	},
 	paper: {
 		padding: theme.spacing.unit * 3,
@@ -73,22 +75,29 @@ class Home extends Component {
 		return <Typography variant="caption"> You need to walk { 2000 - steps } more to reveal cards! </Typography>
 	}
 
+	goMyCards = () => {
+		this.props.history.replace('/mycards')
+	}
+
 	render () {
 		const { classes, steps, monsterCards, canPlay } = this.props
 
 		return (
-		<div className={classes.container}>
-			<Paper className={classes.paper}>
-				<Typography variant="headline"> Today you walked { steps } steps</Typography>
-				{
-					(steps >=  0 && canPlay)
-					? this.renderRevealCards()
-					: this.renderResultMessage()
-				}
+			<div>
+			<NavBar section="Home" handleClick={this.goMyCards} />
+			<div className={classes.container}>
+				<Paper className={classes.paper}>
+					<Typography variant="headline"> Today you walked { steps } steps</Typography>
+					{
+						(steps >=  0 && canPlay)
+						? this.renderRevealCards()
+						: this.renderResultMessage()
+					}
 
-				<BoxReveal monsters={monsterCards} />
-			</Paper>
-		</div>)
+					<BoxReveal monsters={monsterCards} />
+				</Paper>
+			</div>
+			</div>)
 	}
 }
 
