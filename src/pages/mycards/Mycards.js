@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled  from 'styled-components'
 import { connect } from 'react-redux'
-import { Paper } from '@material-ui/core'
+import { Paper, withStyles, Typography } from '@material-ui/core'
 
 import jsonData from '../../monsters.json'
 
@@ -10,6 +10,7 @@ border: 1px solid gray;
 width: 80px;
 height: 80px;
 padding: 10px;
+margin: 10px;
 box-shadow: 0px 5px 5px  0 rgba(0,0,0,0.4);
 `
 
@@ -17,6 +18,25 @@ const ImgMonster = styled.img`
   max-width: 100%;
   max-height: 100%;
 `
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    maxWidth: '25%',
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+})
+
 
 class MyCards extends Component {
   renderMonsterList = () => {
@@ -31,9 +51,15 @@ class MyCards extends Component {
   }
 
   render () {
-    return (<Paper>
-      { this.renderMonsterList() }
-    </Paper>)
+    const { classes } = this.props
+
+    return (
+      <div className={classes.container}>
+        <Typography variant="subtitle1" >Cards Collected</Typography>
+        <Paper className={classes.root} elevation={1}>
+          { this.renderMonsterList() }
+        </Paper>
+      </div>)
   }
 }
 
@@ -41,4 +67,4 @@ const mapStateToProps = state => ({
   cpCollectedCards: state.collectedCards,
 })
 
-export default connect(mapStateToProps)(MyCards)
+export default withStyles(styles)(connect(mapStateToProps)(MyCards))
