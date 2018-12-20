@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Paper, withStyles, Typography } from '@material-ui/core'
 
 import jsonData from '../../monsters.json'
+import Layout from '../../ui/layout/Layout'
 
 const CardMonster = styled.div`
 border: 1px solid gray;
@@ -50,16 +51,21 @@ class MyCards extends Component {
             ))
   }
 
+  goHome = () => {
+		this.props.history.replace('/home')
+  }
+
   render () {
     const { classes } = this.props
 
     return (
-      <div className={classes.container}>
+			<Layout section="MyCards" navLink={this.goHome}>
         <Typography variant="subtitle1" >Cards Collected</Typography>
         <Paper className={classes.root} elevation={1}>
           { this.renderMonsterList() }
         </Paper>
-      </div>)
+      </Layout>
+    )
   }
 }
 

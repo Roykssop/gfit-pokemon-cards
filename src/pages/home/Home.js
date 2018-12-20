@@ -9,6 +9,7 @@ import jsonData from '../../monsters.json'
 
 import NavBar from '../../shared/navbar/Navbar'
 import BoxReveal from '../../cards/BoxReveal'
+import Layout from '../../ui/layout/Layout'
 
 
 const styles = theme => ({
@@ -69,10 +70,10 @@ class Home extends Component {
 	renderRevealCards = () => <Button color="secondary" variant="raised" onClick={this.handleClick} >Reveal 3 monster cards</Button>
 
 	renderResultMessage = () => {
-		const { steps } = this.props
-		let msg = '' 
+		const { steps, canPlay } = this.props
+		let msg = (canPlay) ? `You need to walk ${ 2000 - steps } more to reveal cards!` : `You've already played today`
 
-		return <Typography variant="caption"> You need to walk { 2000 - steps } more to reveal cards! </Typography>
+		return <Typography variant="caption">{ msg }</Typography>
 	}
 
 	goMyCards = () => {
@@ -83,21 +84,19 @@ class Home extends Component {
 		const { classes, steps, monsterCards, canPlay } = this.props
 
 		return (
-			<div>
-			<NavBar section="Home" handleClick={this.goMyCards} />
-			<div className={classes.container}>
+			<Layout section="Home" navLink={this.goMyCards}>
 				<Paper className={classes.paper}>
 					<Typography variant="headline"> Today you walked { steps } steps</Typography>
 					{
-						(steps >=  0 && canPlay)
+						(steps >= 2000 && canPlay)
 						? this.renderRevealCards()
 						: this.renderResultMessage()
 					}
 
 					<BoxReveal monsters={monsterCards} />
 				</Paper>
-			</div>
-			</div>)
+			</Layout>
+		)
 	}
 }
 

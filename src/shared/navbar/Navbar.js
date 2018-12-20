@@ -33,7 +33,7 @@ function NavBar (props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             { props.section }
           </Typography>
-          <Button color="inherit" onClick={ props.handleClick }>My cards</Button>
+          <Button color="inherit" onClick={ props.handleClick }>{ props.section == 'Home' ? 'My cards' : 'Home' }</Button>
         </Toolbar>
       </AppBar>
     </div>
